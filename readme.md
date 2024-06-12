@@ -1,12 +1,11 @@
 # ReSet: A Residual Set-Transformer for Melanoma Detection
 
+![framework](https://github.com/JulesCollenne/ReSeT/assets/43369571/f6f40a31-09b0-4bf8-84c7-0d61358d169b)
+
 Welcome to the official repository for the paper "ReSet: A Residual Set-Transformer approach to tackle the ugly-duckling sign in melanoma detection".
-This repository contains the implementation of our novel method, which is inspired by the original Set Transformer model introduced by Lee et al. in 2019.
-Our model contains additional residual connections to enhance melanoma detection.
 
 ## Abstract
 The dermatological concept of the Ugly-Duckling Sign (UDS) emphasizes the importance of comparing skin lesions within the same patient for enhanced diagnostic accuracy in melanoma detection, stating that atypical lesions are more likely to be cancers. However this concept is still underutilized in research, as most work on melanoma detection rely on classification ConvNets which lack the capacity to compare images together. Addressing this research gap, we introduce ReSeT (Residual Set-Transformer), a framework designed to compare skin lesions within patients during prediction. ReSeT comprises an encoder that takes individual images as input to generate embeddings, and a Set-Transformer with a residual prediction layer that compares these embeddings while predicting. We demonstrate that our architecture ReSeT significantly enhances performance compared to ConvNets and we highlighting the necessity of residual connections in the context of multi-output Transformers. We also observe that self-supervised encoders are able to generate embeddings of comparable quality to those of supervised models, showing their robustness and impact on image comparison tasks.
-
 
 ## Repository Structure
 The code will generate missing folders if they do not exist.
@@ -44,16 +43,13 @@ You need to make sure that you have the original GroundTruth.csv of ISIC 2020, a
 
 ## Getting Started
 
-
 To get started with this repository, clone it and install the required dependencies:
-
 
 ```
 git clone https://github.com/JulesCollenne/ReSeT.git
 cd ReSeT
 pip install -r requirements.txt
 ```
-
 
 ##  Citation
 Soon!
