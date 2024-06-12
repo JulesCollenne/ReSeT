@@ -1,0 +1,4 @@
+# Project exclude paths
+/features/
+/models/
+/predictions/
