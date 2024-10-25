@@ -1,5 +1,6 @@
 import argparse
 import os
+from collections import Counter
 
 import numpy as np
 import pandas as pd
@@ -21,10 +22,10 @@ args = parser.parse_args()
 def main():
     model_name = "CNN"
 
-    n_vect = 10
+    n_vect = 200
     dim_input = sum(['feature' in col for col in pd.read_csv(f"features/{model_name}_val.csv").columns])
     num_outputs = 1
-    emb_dim = 20
+    emb_dim = 200
     dim_output = 2
     patience = 15
 
@@ -42,6 +43,11 @@ def main():
         n_vect=n_vect
     )
 
+    class_counts = Counter(train_gen.gt['target'])
+    total_count = sum(class_counts.values())
+    class_weights = {cls: total_count / count for cls, count in class_counts.items()}
+    class_weights = torch.tensor([class_weights[0], class_weights[1]], dtype=torch.float).cuda()
+
     model = ReSeT(dim_input, num_outputs, emb_dim, dim_output)
 
     model = nn.DataParallel(model)
@@ -54,7 +60,7 @@ def main():
         os.makedirs(f"models/{model_name}")
 
     optimizer = torch.optim.SGD(model.parameters(), lr=args.learning_rate)
-    class_weights = torch.tensor([0.02, 0.98]).cuda()
+    # class_weights = torch.tensor([0.02, 0.98]).cuda()
     criterion = nn.CrossEntropyLoss(class_weights)
     old_mean = 0
     current_patience = 0
@@ -87,21 +93,19 @@ def main():
 
             true_labels += lbls.view(-1).cpu().numpy().tolist()
             predicted_probs += torch.softmax(preds.view(-1, 2), dim=1)[:, 1].cpu().detach().numpy().tolist()
-            print(f"loss: {loss:.3f} correct: {correct/total*100:.3f}%")
+            print(f"Batch loss: {loss:.3f} correct: {correct / total * 100:.3f}%")
 
         avg_loss, avg_acc = np.mean(losses), correct / total
 
         auc = roc_auc_score(true_labels, predicted_probs)
         balanced_acc = balanced_accuracy_score(true_labels, (np.array(predicted_probs) > 0.5).astype(int))
 
-        if epoch % 1 == 0:
-            print(
-                f"Epoch {epoch}: train loss {avg_loss:.3f} train acc {avg_acc:.3f} train AUC {auc:.3f}"
-                f" train balanced acc {balanced_acc:.3f}")
+        print(
+            f"Epoch {epoch}: train loss {avg_loss:.3f} train acc {avg_acc:.3f} train AUC {auc:.3f} train balanced acc {balanced_acc:.3f}")
 
-        if epoch % 1 == 0:
-            model.eval()
-            losses, total, correct, true_labels, predicted_probs = [], 0, 0, [], []
+        model.eval()
+        losses, total, correct, true_labels, predicted_probs = [], 0, 0, [], []
+        with torch.no_grad():
             for imgs, lbls in val_gen.data():
                 imgs = torch.Tensor(imgs).cuda()
                 lbls = torch.Tensor(lbls).long().cuda()
@@ -121,24 +125,26 @@ def main():
                 true_labels += lbls.view(-1).cpu().numpy().tolist()
                 predicted_probs += torch.softmax(preds.view(-1, 2), dim=1)[:, 1].cpu().detach().numpy().tolist()
 
-            avg_loss, avg_acc = np.mean(losses), correct / total
+        avg_loss, avg_acc = np.mean(losses), correct / total
 
-            auc = roc_auc_score(true_labels, predicted_probs)
-            balanced_acc = balanced_accuracy_score(true_labels,
-                                                   (np.array(predicted_probs) > 0.5).astype(int))
-            new_mean = auc
+        auc = roc_auc_score(true_labels, predicted_probs)
+        balanced_acc = balanced_accuracy_score(true_labels, (np.array(predicted_probs) > 0.5).astype(int))
+        new_mean = auc
 
-            if new_mean >= old_mean:
-                torch.save(model.state_dict(), f"models/{model_name}/{model_name}.pth")
-                print("Saving model...")
-                old_mean = new_mean
-                current_patience = 0
-            else:
-                current_patience += 1
+        print(
+            f"Epoch {epoch}: val loss {avg_loss:.3f} val acc {avg_acc:.3f} val AUC {auc:.3f} val balanced acc {balanced_acc:.3f}")
 
-            if current_patience >= patience:
-                print("Stopping training.")
-                break
+        if new_mean >= old_mean:
+            torch.save(model.state_dict(), f"models/{model_name}/{model_name}.pth")
+            print("Saving model...")
+            old_mean = new_mean
+            current_patience = 0
+        else:
+            current_patience += 1
+
+        if current_patience >= patience:
+            print("Stopping training.")
+            break
 
             if epoch % 1 == 0:
                 print(

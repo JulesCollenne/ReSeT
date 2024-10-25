@@ -21,9 +21,9 @@ def main():
 
     dim_input = sum(['feature' in col for col in pd.read_csv(f"features/{model_name}_val.csv").columns])
     num_outputs = 1
-    emb_dim = 20
+    emb_dim = 200
     dim_output = 2
-    n_vect = 50
+    n_vect = 200
 
     val_gen = DataLoaderISIC(
         f"features/{model_name}_val.csv",

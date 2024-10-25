@@ -60,20 +60,28 @@ Soon!
 
 [//]: # (If you find our work useful in your research, please consider citing:)
 
+[//]: # ()
 [//]: # (```)
 
+[//]: # ()
 [//]: # (@article{collenne2024,)
 
+[//]: # ()
 [//]: # (  title={ReSet: A Residual Set-Transformer approach to tackle the ugly-duckling sign in melanoma detection},)
 
+[//]: # ()
 [//]: # (  author={Collenne, Jules and Iguernaissi, Rabah and Dubuisson, Severine and Merad, Djamal},)
 
+[//]: # ()
 [//]: # (  journal={},)
 
+[//]: # ()
 [//]: # (  year={2024})
 
+[//]: # ()
 [//]: # (})
 
+[//]: # ()
 [//]: # (```)
 
 [//]: # (And the SetTransformer paper:)
