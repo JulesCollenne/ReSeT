@@ -51,51 +51,32 @@ cd ReSeT
 pip install -r requirements.txt
 ```
 
-##  Citation
-Soon!
+## Citation
 
-[//]: # (If you find our work useful in your research, please consider citing:)
+If you find our work useful in your research, please consider citing:
 
-[//]: # ()
-[//]: # (```)
+```
+@INPROCEEDINGS{10647287,
+  author={Collenne, Jules and Iguernaissi, Rabah and Dubuisson, Séverine and Merad, Djamal},
+  booktitle={2024 IEEE International Conference on Image Processing (ICIP)}, 
+  title={ReSet: A Residual Set-Transformer Approach to Tackle the Ugly-Duckling Sign in Melanoma Detection}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={3186-3191},
+  keywords={Visualization;Accuracy;Computational modeling;Dermatology;Melanoma;Transformers;Skin;Skin lesions;Set-Transformers;Self-supervised learning;Machine Learning;Ugly-Duckling Sign},
+  doi={10.1109/ICIP51287.2024.10647287}
+}
+```
 
-[//]: # ()
-[//]: # (@article{collenne2024,)
+And the SetTransformer paper:
 
-[//]: # ()
-[//]: # (  title={ReSet: A Residual Set-Transformer approach to tackle the ugly-duckling sign in melanoma detection},)
-
-[//]: # ()
-[//]: # (  author={Collenne, Jules and Iguernaissi, Rabah and Dubuisson, Severine and Merad, Djamal},)
-
-[//]: # ()
-[//]: # (  journal={},)
-
-[//]: # ()
-[//]: # (  year={2024})
-
-[//]: # ()
-[//]: # (})
-
-[//]: # ()
-[//]: # (```)
-
-[//]: # (And the SetTransformer paper:)
-
-[//]: # (```)
-
-[//]: # (@InProceedings{lee2019set,)
-
-[//]: # (    title={Set Transformer: A Framework for Attention-based Permutation-Invariant Neural Networks},)
-
-[//]: # (    author={Lee, Juho and Lee, Yoonho and Kim, Jungtaek and Kosiorek, Adam and Choi, Seungjin and Teh, Yee Whye},)
-
-[//]: # (    booktitle={Proceedings of the 36th International Conference on Machine Learning},)
-
-[//]: # (    pages={3744--3753},)
-
-[//]: # (    year={2019})
-
-[//]: # (})
-
-[//]: # (```)
+```
+@InProceedings{lee2019set,
+    title={Set Transformer: A Framework for Attention-based Permutation-Invariant Neural Networks},
+    author={Lee, Juho and Lee, Yoonho and Kim, Jungtaek and Kosiorek, Adam and Choi, Seungjin and Teh, Yee Whye},
+    booktitle={Proceedings of the 36th International Conference on Machine Learning},
+    pages={3744--3753},
+    year={2019}
+}
+```
